@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+srilm_src="/media/zhenghao/Study/UKY/NLP/language-models/srilm-1.7.0-lite.tar.gz"
+srilm_dir="/home/zhenghao/Machine-Translation/language-models/srilm"
+
+if [ ! -d $srilm_dir ]; then
+	mkdir "$srilm_dir"
+fi
+cd "$srilm_dir"
+
+#1 - Unpack.
+tar -xzvf "$srilm_src"
+
+#2 - Set the SRILM variable in the top-level Makefile to point to this top-level directory (an absolute path).
+sed -i "/^\(# *\)\?SRILM/c \
+SRILM = $srilm_dir" Makefile
+
+#3 - Issues with variables in Makefile such as MACHINE-TYPE
+
+#4 - Required third-party softwares
+
+#5 - Build everything and install public commands, libraries and headers in 
+#	the bin, lib, and include subdirectories. Binaries are actually installed 
+#	in subdirectories indicating the platform type.
+make World
+
+#6 - In your shell, set the following environment variables:
+#	PATH		add $SRILM/bin/$MACHINE_TYPE and $SRILM/bin
+#	MANPATH		add $SRILM/man
+#export PATH
+#export MANPATH
+
+#7 - Test the compiled tools
+#make test
+
+#8 - Clean up the source directories of object and binary files that are no longer needed
+make cleanest
+
+#9
+
+#10
+
+#11
