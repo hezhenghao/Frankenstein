@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+randlm_src="/media/zhenghao/Study/UKY/NLP/language-models/randlm-0.2.5.tar.gz"
+randlm_dir="/home/zhenghao/Machine-Translation/language-models/randlm"
+
+tmp_dir="/tmp/install_randlm".`date +'%Y%m%d%H%M%S'`
+mkdir "$tmp_dir"
+cd "$tmp_dir"
+tar -xzvf "$randlm_src"
+cd "randlm"*
+sh autogen.sh
+if [ ! -d "$randlm_dir" ]; then
+	mkdir -p "$randlm_dir"
+fi
+./configure --prefix="$randlm_dir"
+make clean
+make
+make install
+rm -r "$tmp_dir"/*
