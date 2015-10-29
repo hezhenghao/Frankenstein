@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+irstlm_src="/media/zhenghao/Study/UKY/NLP/language-models/irstlm-5.80.08.tgz"
+irstlm_dir="/home/zhenghao/Machine-Translation/language-models/irstlm"
+
+tmp_dir="/tmp/install_irstlm"`date +'%Y%m%d%H%M%S'`
+mkdir "$tmp_dir"
+cd "$tmp_dir"
+tar -xzvf "$irstlm_src"
+cd "irstlm"*"/trunk"
+sh regenerate-makefiles.sh
+if [ ! -d "$irstlm_dir" ]; then
+	mkdir -p "$irstlm_dir"
+fi
+./configure --prefix="$irstlm_dir" --enable-doc --enable-caching
+make clean
+make
+make install
+rm -r "$tmp_dir"/*
