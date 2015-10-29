@@ -1,0 +1,78 @@
+#!/usr/bin/env bash
+
+# Train a machine translation system. First make it work with Phrasal
+# only. Later add support for other MT systems to make this script a
+# one-stop solution for the machine translation problem.
+
+#=== Paths ===
+work_dir= # Directory where the intermediate and output files are to be found
+lang_f= # Language code (ISO 639-1) for the source language
+lang_e= # Language code (ISO 639-1) for the target language
+monotext_e= # Monolingual corpus for the target language
+bitext_f= # Parallel corpus for the source language
+bitext_e= # Parallel corpus for the target language
+testtext_f= # File containing test sentences
+testtext_e= # File containing reference translations
+
+#### FUNCTION DEFINITIONS ####
+
+tokenize() {
+	exit
+}
+
+train_lm() {
+	exit
+}
+
+align_words() {
+	exit
+}
+
+extract_phrases() {
+	exit
+}
+
+tune_params() {
+	exit
+}
+
+decode() {
+	exit
+}
+
+evaluate() {
+	exit
+}
+
+#### MAIN ####
+
+#=== Data Download and Pre-processing ===
+
+#--- Tokenize ---
+tokenize $lang_e < $monotext_e > $mono_e_tok
+tokenize $lang_f < $bitext_f > $bi_f_tok
+tokenize $lang_e < $bitext_e > $bi_e_tok
+
+#--- Language Model Estimation ---
+train_lm < $mono_e_tok $bi_e_tok > $lm_e
+
+#--- Word Alignment ---
+align_words $bi_f_tok $bi_e_tok $align_fe $align_ef
+
+#=== System Training ===
+
+#--- Extract phrases from dev set ---
+extract_phrases $bi_f_tok $bi_e_tok $align_fe $align_ef
+
+#--- Run tuning ---
+tune_params
+
+#--- Extract phrases from test set ---
+
+#--- Decode test set ---
+decode < $testtext_f > $mt_out_e
+
+#--- Output results file (Evaluate) ---
+evaluate $mt_out_e $testtext_e > $eval
+
+#--- Generate a learning curve from an online run ---
