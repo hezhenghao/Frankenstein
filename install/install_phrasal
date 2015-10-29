@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+
+#=== Paths ===
+
+#--- Source files ---
+phrasal_src="/media/zhenghao/Study/UKY/NLP/MT/Phrasal/phrasal-3.5.2.tar.gz" # Source archive for Stanford Phrasal
+corenlp_src="/media/zhenghao/Study/UKY/NLP/stanford-corenlp-full-2015-04-20.zip" # Source archive for Stanford CoreNLP
+
+#--- Installation directories ---
+phrasal_dir="/home/zhenghao/Machine-Translation/Phrasal" # Destination of the Stanford Phrasal installation
+corenlp_dir="/home/zhenghao/Machine-Translation/CoreNLP" # Destination of the Stanford CoreNLP installation
+
+#=== Install CoreNLP ===
+
+#--- Extract CoreNLP ---
+cd `dirname $corenlp_dir`
+unzip $corenlp_src -d . 
+corenlp_root_dir=`find -maxdepth 1 -type d -name *corenlp*` # Get the root directory name of CoreNLP
+if [ -d $corenlp_dir ]; then
+	rm -r $corenlp_dir
+fi
+mv $corenlp_root_dir $corenlp_dir # Rename the CoreNLP root directory to the installation directory
+
+#--- Set the environment variable CORENLP_HOME ---
+export CORENLP_HOME=$corenlp_dir
+
+#=== Install Gradle ===
+sudo add-apt-repository ppa:cwchien/gradle
+sudo apt-get update
+sudo apt-get install gradle
+
+#=== Install Phrasal ===
+
+#--- Extract Phrasal ---
+cd `dirname $phrasal_dir`
+tar -xzf $phrasal_src
+phrasal_root_dir=`find -maxdepth 1 -type d -name *phrasal*` # Get the root directory name of Phrasal
+if [ -d $phrasal_dir ]; then
+	rm -r $phrasal_dir
+fi
+mv $phrasal_root_dir $phrasal_dir # Rename the Phrasal root directory to the installation directory
+
+#--- Compile Phrasal ---
+cd $phrasal_dir 
+# gradle build
+gradle installDist
+export CLASSPATH=$phrasal_dir/build/install/Phrasal/lib/* # Set CLASSPATH
+gradle eclipse # (Optional) Build Eclipse project files
+
+#--- Build KenLM ---
+gradle compileKenLM # (Optional) Build the KenLM loader
+gradle compileKenLMtools # (Optional) Build the KenLM language model estimation tools
+# To activate this loader, add the "kenlm:" prefix to the language model path in the Phrasal ini file. (@TODO: How do I do that?)
+# Compile_JNI.sh builds only the part needed for querying language models. If you also want to estimate language models you have to build lmplz.
+cd $phrasal_dir/src-cc/kenlm
+./bjam
