@@ -1,0 +1,87 @@
+#!/usr/bin/env bash
+# The Moses SMT system is monstrously complex to use, and its documentations are poorly written. The data organization is
+# a disaster. It has no README file in its root directory, and its "BUILD-INSTRUCTIONS" file is a joke. Seriously, why
+# would you put "blah blah blah" in your instructions file? And why would you ask the user to refer to the website to
+# get instructions? Can't you just reproduce it here? And the instructions on the website... What the hell? You just want
+# to confuse everybody so that you can look clever, don't you? See this: "The MGIZA binary and the script merge_alignment.py
+# need to be copied in you binary directory that Moses will look up for word alignment tools." Why am I supposed to know 
+# where Moses will be looking up for word alignment tools? Shouldn't you be giving the information instead of pointing to
+# a direction that only you can understand? I hope that Stanford Phrasal will become much more popular in the future so 
+# that no one else will have to deal with this piece of giant failure.
+
+#=== Set paths ===
+
+#--- Source directories ---
+moses_src="/media/zhenghao/Study/UKY/NLP/MT/Moses/code/moses-RELEASE-3.0.tar.gz"
+
+#--- Destination directories ---
+moses_dir="/home/zhenghao/Machine-Translation/Moses"
+irstlm_dir="/home/zhenghao/Machine-Translation/language-models/irstlm"
+randlm_dir="/home/zhenghao/Machine-Translation/language-models/randlm"
+#nplm_dir="/home/zhenghao/Machine-Translation/language-models/nplm"
+srilm_dir="/home/zhenghao/Machine-Translation/language-models/srilm"
+mgiza_dir="/home/zhenghao/Machine-Translation/MMM/tools/mgizapp"
+
+if [ "$FRANKENSTEIN_HOME" = "" ]; then
+	FRANKENSTEIN_HOME="/home/zhenghao/Machine-Translation/Frankenstein"
+fi
+
+#=== Install Moses ===
+
+# Get the current date-time for logging purposes
+timestamp=`date +%Y%m%d%H%M%S`
+
+# Find out the number of processor cores available, to enable Moses to use multithreading
+num_cores=`grep -c ^processor /proc/cpuinfo`
+
+# Extract source and create directory
+cd $FRANKENSTEIN_HOME # If mkdir failed then Moses files will be extracted to Frankenstein home directory
+tmp_dir="/tmp/install_moses$timestamp"
+mkdir $tmp_dir
+cd $tmp_dir
+tar -xzf $moses_src
+sudo chown -R $USER $tmp_dir
+sudo chmod -R +rwx $tmp_dir
+if [ ! -d $moses_dir ]; then
+	mkdir $moses_dir
+	sudo chown -R $USER $moses_dir
+	sudo chmod -R +rwx $moses_dir
+fi
+
+# Move necessary header files to Moses directory
+if [ ! -d $moses_dir/include ]; then
+	mkdir $moses_dir/include
+fi
+for DIR in $irstlm_dir $randlm_dir $srilm_dir; do
+	cp -r $DIR/include/* $moses_dir/include
+done
+
+# Compile source
+cd $tmp_dir
+bjam_options="-j$num_cores" # Compile in parallel with the given number of cores
+bjam_options+=" -a" # Build all targets anyway, even if they are up-to-date
+bjam_options+=" -q"  # Quit on first error
+bjam_options+=" --prefix=$moses_dir" # Root directory of the installation
+bjam_options+=" --bindir=$moses_dir/bin" # Directory for the binary files, defaults to PREFIX/bin
+bjam_options+=" --libdir=$moses_dir/lib" # Directory for the library files, defaults to PREFIX/lib
+bjam_options+=" --includedir=$moses_dir/include" # Directory for the header files.
+		# If the option is not specified, the header files are not installed;
+		# If the option is specified without an argument, the destination defaults to PREFIX/include
+bjam_options+=" --install-scripts=$moses_dir/scripts" # Directory for the script files.
+		# If the option is not specified, the script files are not installed;
+		# If the option is specified without an argument, the destination defaults to PREFIX/scripts
+bjam_options+=" --max-kenlm-order=9" # Maximum ngram order that KenLM can process (default 6)
+bjam_options+=" --max-factors=4" # Maximum number of factors (default 4)
+bjam_options+=" --notrace" # Compiles without TRACE macros
+bjam_options+=" --static" # Forces static linking (the default will fall back to shared)
+bjam_options+=" --with-irstlm=$irstlm_dir" # Path to IRSTLM installation
+bjam_options+=" --with-randlm=$randlm_dir" # Path to RandLM installation
+bjam_options+=" --with-srilm=$srilm_dir" # Path to SRILM installation
+echo "bjam options are: $bjam_options"
+sudo ./bjam $bjam_options
+
+# Create soft links to Moses in Frankenstein
+#ln -s -t "$FRANKENSTEIN_HOME/bin" "$moses_dir/bin"/*
+
+# Clean up
+sudo rm -r $tmp_dir
