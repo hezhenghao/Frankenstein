@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+export MT_HOME=/home/zhenghao/Machine-Translation
+export FRANKENSTEIN_HOME=$MT_HOME/Frankenstein
+export CORENLP_HOME=$MT_HOME/CoreNLP
+export GROUNDHOG_HOME=$MT_HOME/GroundHog
+
+#--- MT Systems ---
+export MOSES_HOME=$MT_HOME/Moses
+export PHRASAL_HOME=$MT_HOME/Phrasal
+export NMT_HOME=$GROUNDHOG_HOME/experiments/nmt
+export NIUTRANS_HOME=$MT_HOME/NiuTrans_1.3.1_Beta
+export MMM_HOME="$MT_HOME/Moses-for-Mere-Mortals/scripts"
+export NMM_HOME="$FRANKENSTEIN_HOME/tools/NMT-for-Mere-Mortals"
+
+#--- Language Models ---
+LM_HOME=$MT_HOME/language-models
+export IRSTLM_HOME=$LM_HOME/irstlm
+export SRILM_HOME=$LM_HOME/srilm
+export RANDLM_HOME=$LM_HOME/randlm
+export KENLM_HOME=$PHRASAL_HOME/src-cc/kenlm
+
+#--- Word Aligners ---
+export BERKELEYALIGNER_HOME=$MT_HOME/word-align/berkeley-aligner
+export MGIZA_HOME=$MT_HOME/MMM/tools/mgizapp
+
+#--- Word Segmenters ---
+export STANFORDSEGMENTER_HOME=$MT_HOME/word-segment/stanford-segmenter-2015-01-30
+
+#--- Word Vectors ---
+export GLOVE_HOME=$MT_HOME/word-vector/glove
+export WORD2VEC_HOME=$MT_HOME/word-vector/word2vec
+
+#--- Short Names ---
+export FRKST=$FRANKENSTEIN_HOME
+export BKLAL=$BERKELEYALIGNER_HOME
+export STFSM=$STANFORDSEGMENTER_HOME
