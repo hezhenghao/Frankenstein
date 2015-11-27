@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+
+model_dir="/home/zhenghao/Machine-Translation/GroundHog/data/alice/2015-11-26@14-49-04"
+infile="/home/zhenghao/Machine-Translation/GroundHog/data/alice/zh"
+outfile="$infile.nmt.en"
+beam_size=20
+logfile='log.decode'
+source $model_dir/config
+
+decode() {
+	local opts=""
+	if [ $# -eq 2 ]; then
+		opts="--source $1 --trans $2"
+	fi
+	if [ "$char_level" = "true" ]; then
+		echo "Level: char" 1>&2
+		opts="$opts --char_level"
+	fi
+	THEANO_FLAGS='floatX=float32,on_unused_input="warn"' python "$NMT_HOME/sample.py" \
+		--beam-search --beam-size $beam_size \
+		--ignore-unk \
+		--verbose \
+		--state "$model_dir/search_state.pkl" \
+		$opts \
+		"$model_dir/search_model.npz" #2>>$logfile
+}
+
+if [ -f $logfile ]; then
+	rm $logfile
+fi
+if [ -r $infile ]; then
+	decode $infile $outfile
+else
+	echo "Error: File not readable." 1>&2
+fi
+decode
