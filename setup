@@ -10,7 +10,7 @@ export PHRASAL_HOME=$MT_HOME/Phrasal
 export NMT_HOME=$GROUNDHOG_HOME/experiments/nmt
 export NIUTRANS_HOME=$MT_HOME/NiuTrans_1.3.1_Beta
 export MMM_HOME="$MT_HOME/Moses-for-Mere-Mortals/scripts"
-export NMM_HOME="$FRANKENSTEIN_HOME/tools/NMT-for-Mere-Mortals"
+export NMM_HOME="$FRANKENSTEIN_HOME/tools/nmt"
 
 #--- Language Models ---
 LM_HOME=$MT_HOME/language-models
