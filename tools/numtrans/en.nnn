@@ -1,0 +1,61 @@
+# Resource file for English numbers
+# character|value|type
+#
+#--- digits ---
+zero|0|normal-zerodigit
+one|1|normal-digit
+two|2|normal-digit
+three|3|normal-digit
+four|4|normal-digit
+five|5|normal-digit
+six|6|normal-digit
+seven|7|normal-digit
+eight|8|normal-digit
+nine|9|normal-digit
+#
+#--- 10 to 19 ---
+ten|10|normal-10to19
+eleven|11|normal-10to19
+twelve|12|normal-10to19
+thirteen|13|normal-10to19
+fourteen|14|normal-10to19
+fifteen|15|normal-10to19
+sixteen|16|normal-10to19
+seventeen|17|normal-10to19
+eighteen|18|normal-10to19
+nineteen|19|normal-10to19
+#
+#--- tens ---
+twenty|20|normal-tens
+thirty|30|normal-tens
+forty|40|normal-tens
+fifty|50|normal-tens
+sixty|60|normal-tens
+seventy|70|normal-tens
+eighty|80|normal-tens
+ninety|90|normal-tens
+#
+#--- positions ---
+#- normal -
+hundred|2|normal-position
+thousand|3|normal-position
+million|6|normal-position
+billion|9|normal-large-position
+trillion|12|normal-large-position
+quadrillion|15|normal-large-position
+quintillion|18|normal-large-position
+sextillion|21|normal-large-position
+#- rare -
+myriad|4|rare-position
+milliard|9|rare-position
+billiard|15|rare-position
+trilliard|21|rare-position
+#- Indian -
+lakh|5|indian-position
+crore|7|indian-position
+arab|9|indian-position
+kharab|11|indian-position
+neel|13|indian-position
+padm|15|indian-position
+shankh|17|indian-position
+gulshan|18|indian-position
