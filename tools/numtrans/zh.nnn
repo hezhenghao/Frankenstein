@@ -1,0 +1,72 @@
+# Resource file for Chinese numbers
+# character|value|type
+#
+#--- digits ---
+零|0|normal-accounting-zerodigit
+〇|0|normal-zerodigit
+一|1|normal-digit
+二|2|normal-digit
+三|3|normal-digit
+四|4|normal-digit
+五|5|normal-digit
+六|6|normal-digit
+七|7|normal-digit
+八|8|normal-digit
+九|9|normal-digit
+#
+#--- positions ---
+十|1|normal-position
+百|2|normal-position
+千|3|normal-position
+万|4|normal-largeposition
+亿|5|normal-largeposition
+兆|6|normal-largeposition
+#
+#--- accounting ---
+壹|1|accounting-digit
+贰|2|accounting-digit
+叁|3|accounting-digit
+肆|4|accounting-digit
+伍|5|accounting-digit
+陆|6|accounting-digit
+柒|7|accounting-digit
+捌|8|accounting-digit
+玖|9|accounting-digit
+拾|1|accounting-position
+佰|2|accounting-position
+仟|3|accounting-position
+萬|4|accounting-largeposition
+億|5|accounting-largeposition
+#
+#--- informal ---
+两|2|informal-digit
+仨|3|informal-digit
+廿|20|informal-mixed
+卅|30|informal-mixed
+卌|40|informal-mixed
+皕|200|informal-mixed
+#
+#--- large numbers ---
+京|7|rare-largeposition
+垓|8|rare-largeposition
+秭|9|rare-largeposition
+穰|10|rare-largeposition
+沟|11|rare-largeposition
+涧|12|rare-largeposition
+正|13|rare-largeposition
+载|14|rare-largeposition
+极|15|rare-largeposition
+#
+#--- small numbers ---
+分|-1|smallposition
+厘|-2|smallposition
+毫|-3|smallposition
+丝|-4|rare-smallposition
+忽|-5|rare-smallposition
+微|-6|smallposition
+纤|-7|rare-smallposition
+沙|-8|rare-smallposition
+尘|-9|rare-smallposition
+埃|-10|rare-smallposition
+渺|-11|rare-smallposition
+漠|-12|rare-smallposition
